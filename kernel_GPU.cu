@@ -17,7 +17,7 @@
 #include <set>
 
 
-// проверка предположительных корней на  GPU
+// ГЇГ°Г®ГўГҐГ°ГЄГ  ГЇГ°ГҐГ¤ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г»Гµ ГЄГ®Г°Г­ГҐГ© Г­Г   GPU
 __global__ void resultGPU(double* devarrayRR, int temp_n, int* arrayS, int k) {
 
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
@@ -33,7 +33,7 @@ __global__ void resultGPU(double* devarrayRR, int temp_n, int* arrayS, int k) {
 	}
 }
 
-// поиска делителей p=array[0], q=array[n-1] и запись их в вектор на GPU
+// ГЇГ®ГЁГ±ГЄГ  Г¤ГҐГ«ГЁГІГҐГ«ГҐГ© p=array[0], q=array[n-1] ГЁ Г§Г ГЇГЁГ±Гј ГЁГµ Гў ГўГҐГЄГІГ®Г° Г­Г  GPU
 __global__ void pqr(double* devArrayP, double* devArrayQ, double* devArrayR, int p, int q) {
 
 	int i = blockDim.x * blockIdx.x + threadIdx.x; 
@@ -74,24 +74,24 @@ __global__ void pqr(double* devArrayP, double* devArrayQ, double* devArrayR, int
 
 int main(void) {
 
-	// кодировка
+	// ГЄГ®Г¤ГЁГ°Г®ГўГЄГ 
 	setlocale(0, "");
 
-	// n степень полинома
-	std::cout << "Введите максимальную степень полинома: ";
+	// n Г±ГІГҐГЇГҐГ­Гј ГЇГ®Г«ГЁГ­Г®Г¬Г 
+	std::cout << "Г‚ГўГҐГ¤ГЁГІГҐ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­ГіГѕ Г±ГІГҐГЇГҐГ­Гј ГЇГ®Г«ГЁГ­Г®Г¬Г : ";
 	int n;
 	std::cin >> n;
 	n++;
 	int* arrayS = new int[n];
 
-	// Ввод массива с клавиатуры
+	// Г‚ГўГ®Г¤ Г¬Г Г±Г±ГЁГўГ  Г± ГЄГ«Г ГўГЁГ ГІГіГ°Г»
 	for (int i = 0; i < n; i++)
 	{
 		std::cin >> arrayS[i];
 	}
 
 	unsigned int start_time = clock();
-	// Вывод F на экран
+	// Г‚Г»ГўГ®Г¤ F Г­Г  ГЅГЄГ°Г Г­
 	std::cout << " F = ";
 	for (int i = 0; i < n; i++)
 	{
@@ -102,7 +102,7 @@ int main(void) {
 	}
 	std::cout << " = 0\n";
 
-	// поиска делителей p=array[0], q=array[n-1] и запись их в вектора
+	// ГЇГ®ГЁГ±ГЄГ  Г¤ГҐГ«ГЁГІГҐГ«ГҐГ© p=array[0], q=array[n-1] ГЁ Г§Г ГЇГЁГ±Гј ГЁГµ Гў ГўГҐГЄГІГ®Г°Г 
 	double* arrayPP = new double[100];
 	double* arrayQQ = new double[100];
 	double* arrayRR = new double[10000];
@@ -132,7 +132,7 @@ int main(void) {
 	cudaFree(devArrayR);
 
 
-	//вызов проверки на GPU	
+	//ГўГ»Г§Г®Гў ГЇГ°Г®ГўГҐГ°ГЄГЁ Г­Г  GPU	
 	double* devarrayRR;
 	int* devArrayS;
 	cudaMalloc((void**)&devarrayRR, sizeof(double)*10000);
@@ -147,42 +147,42 @@ int main(void) {
 
 
 
-	//хрень----------------------------------------------------------------------------------------------
-	std::cout << "Делители p:  ";
+	//ГµГ°ГҐГ­Гј----------------------------------------------------------------------------------------------
+	std::cout << "Г„ГҐГ«ГЁГІГҐГ«ГЁ p:  ";
 	for (int i = 0; i < 100; i++) {
 		if (arrayPP[i] != 0) std::cout << arrayPP[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 
-	std::cout << "Делители q:  ";
+	std::cout << "Г„ГҐГ«ГЁГІГҐГ«ГЁ q:  ";
 	for (int i = 0; i < 100; i++) {
 		if (arrayQQ[i] != 0) std::cout << arrayQQ[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 
-	std::cout << "Предполагаемые корни:  ";
+	std::cout << "ГЏГ°ГҐГ¤ГЇГ®Г«Г ГЈГ ГҐГ¬Г»ГҐ ГЄГ®Г°Г­ГЁ:  ";
 	for (int i = 0; i < 10000; i++) {
 		if (arrayRR[i] != NULL) std::cout << arrayRR[i] << "   ";
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 
-	std::cout << "Верные корни GPU:  ";
+	std::cout << "Г‚ГҐГ°Г­Г»ГҐ ГЄГ®Г°Г­ГЁ GPU:  ";
 	for (int i = 0; i < 10000; i++) {
 		if (arrayRR[i] != 0) std::cout << arrayRR[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
-	//конец хрени----------------------------------------------------------------------------------------------
+	//ГЄГ®Г­ГҐГ¶ ГµГ°ГҐГ­ГЁ----------------------------------------------------------------------------------------------
 
 
 
-	// время исполнения
+	// ГўГ°ГҐГ¬Гї ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї
 	unsigned int end_time = clock();
 	unsigned int search_time = end_time - start_time;
-	std::cout << "Время работы общее " << search_time << " милисекунд \n";
+	std::cout << "Г‚Г°ГҐГ¬Гї Г°Г ГЎГ®ГІГ» Г®ГЎГ№ГҐГҐ " << search_time << " Г¬ГЁГ«ГЁГ±ГҐГЄГіГ­Г¤ \n";
 	system("pause");
 	return 0;
 }
