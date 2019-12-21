@@ -18,14 +18,14 @@
 
 
 
-// проверка предположительных корней на  CPU
+// ГЇГ°Г®ГўГҐГ°ГЄГ  ГЇГ°ГҐГ¤ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г»Гµ ГЄГ®Г°Г­ГҐГ© Г­Г   CPU
 std::vector<double> result(std::vector<double> arrayR_F, int* array_F, int k) {
 	std::vector<double> arrayResult;
 	int n = arrayR_F.size();	
 
-	for (int i = 0; i < n; i++) { //проход по предполагаемым корням
+	for (int i = 0; i < n; i++) { //ГЇГ°Г®ГµГ®Г¤ ГЇГ® ГЇГ°ГҐГ¤ГЇГ®Г«Г ГЈГ ГҐГ¬Г»Г¬ ГЄГ®Г°Г­ГїГ¬
 		double tempResult = 0;
-		for (int j = 0; j < k; j++) { //проход по степеням (элементам) полинома
+		for (int j = 0; j < k; j++) { //ГЇГ°Г®ГµГ®Г¤ ГЇГ® Г±ГІГҐГЇГҐГ­ГїГ¬ (ГЅГ«ГҐГ¬ГҐГ­ГІГ Г¬) ГЇГ®Г«ГЁГ­Г®Г¬Г 
 			tempResult += array_F[j] * pow(arrayR_F[i], k - j - 1);
 		}
 		if (tempResult == 0) arrayResult.push_back(arrayR_F[i]);
@@ -39,24 +39,24 @@ std::vector<double> result(std::vector<double> arrayR_F, int* array_F, int k) {
 
 int main(void) {
 	
-	// кодировка
+	// ГЄГ®Г¤ГЁГ°Г®ГўГЄГ 
 	setlocale(0, "");
 
-	// n степень полинома
-	std::cout<< "Введите максимальную степень полинома: ";
+	// n Г±ГІГҐГЇГҐГ­Гј ГЇГ®Г«ГЁГ­Г®Г¬Г 
+	std::cout<< "Г‚ГўГҐГ¤ГЁГІГҐ Г¬Г ГЄГ±ГЁГ¬Г Г«ГјГ­ГіГѕ Г±ГІГҐГЇГҐГ­Гј ГЇГ®Г«ГЁГ­Г®Г¬Г : ";
 	int n;
 	std::cin >> n;
 	n++;
 	int* arrayS = new int[n];
 
-	// Ввод массива с клавиатуры
+	// Г‚ГўГ®Г¤ Г¬Г Г±Г±ГЁГўГ  Г± ГЄГ«Г ГўГЁГ ГІГіГ°Г»
 	for (int i = 0; i < n; i++)
 	{
 		std::cin >> arrayS[i];
 	}
 
 	unsigned int start_time = clock();
-	// Вывод F на экран
+	// Г‚Г»ГўГ®Г¤ F Г­Г  ГЅГЄГ°Г Г­
 	std::cout << " F = ";
 	for (int i = 0; i < n; i++)
 	{
@@ -67,7 +67,7 @@ int main(void) {
 	}
 	std::cout << " = 0\n";
 
-	// поиска делителей p=array[0], q=array[n-1] и запись их в вектора
+	// ГЇГ®ГЁГ±ГЄГ  Г¤ГҐГ«ГЁГІГҐГ«ГҐГ© p=array[0], q=array[n-1] ГЁ Г§Г ГЇГЁГ±Гј ГЁГµ Гў ГўГҐГЄГІГ®Г°Г 
 	std::vector<double> arrayP(1, arrayS[n-1]);
 	std::vector<double> arrayQ(1, arrayS[0]);
 
@@ -82,7 +82,7 @@ int main(void) {
 	arrayP.push_back(1);
 	arrayQ.push_back(1);
 
-	// составление вектора arrayR предположительных корней (комбинаций без повторений) из всех +- p/q 
+	// Г±Г®Г±ГІГ ГўГ«ГҐГ­ГЁГҐ ГўГҐГЄГІГ®Г°Г  arrayR ГЇГ°ГҐГ¤ГЇГ®Г«Г®Г¦ГЁГІГҐГ«ГјГ­Г»Гµ ГЄГ®Г°Г­ГҐГ© (ГЄГ®Г¬ГЎГЁГ­Г Г¶ГЁГ© ГЎГҐГ§ ГЇГ®ГўГІГ®Г°ГҐГ­ГЁГ©) ГЁГ§ ГўГ±ГҐГµ +- p/q 
 	std::vector<double> arrayR;
 	for (int ip = 0; ip < arrayP.size(); ip++){
 		for (int iq = 0; iq < arrayQ.size(); iq++) {
@@ -91,52 +91,52 @@ int main(void) {
 		}
 	}
 
-	// сортировка и уборка дубликатов из arrayR
+	// Г±Г®Г°ГІГЁГ°Г®ГўГЄГ  ГЁ ГіГЎГ®Г°ГЄГ  Г¤ГіГЎГ«ГЁГЄГ ГІГ®Гў ГЁГ§ arrayR
 	std::sort(arrayR.begin(), arrayR.end());
 	arrayR.erase(std::unique(arrayR.begin(), arrayR.end()), arrayR.end());
 
-	//вызов проверки на CPU
+	//ГўГ»Г§Г®Гў ГЇГ°Г®ГўГҐГ°ГЄГЁ Г­Г  CPU
 	
 	std::vector<double> arrayResult1;
 	arrayResult1 = result(arrayR, arrayS, n);
 	
 
-	//хрень----------------------------------------------------------------------------------------------
-	std::cout << "Делители p:  ";
+	//ГµГ°ГҐГ­Гј----------------------------------------------------------------------------------------------
+	std::cout << "Г„ГҐГ«ГЁГІГҐГ«ГЁ p:  ";
 	for (int i = 0; i < arrayP.size(); i++) {
 		std::cout << arrayP[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 
-	std::cout << "Делители q:  ";
+	std::cout << "Г„ГҐГ«ГЁГІГҐГ«ГЁ q:  ";
 	for (int i = 0; i < arrayQ.size(); i++) {
 		std::cout << arrayQ[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 	
-	std::cout << "Предполагаемые корни:  ";
+	std::cout << "ГЏГ°ГҐГ¤ГЇГ®Г«Г ГЈГ ГҐГ¬Г»ГҐ ГЄГ®Г°Г­ГЁ:  ";
 	for (int i = 0; i < arrayR.size(); i++) {
 		std::cout << arrayR[i] << "   ";
 	}
 	std::cout << " \n";
 	std::cout << " \n";
 
-	std::cout << "Верные корни CPU:  ";
+	std::cout << "Г‚ГҐГ°Г­Г»ГҐ ГЄГ®Г°Г­ГЁ CPU:  ";
 	for (int i = 0; i < arrayResult1.size(); i++) {
 		std::cout << arrayResult1[i] << ' ';
 	}
 	std::cout << " \n";
 	std::cout << " \n";
-	//конец хрени----------------------------------------------------------------------------------------------
+	//ГЄГ®Г­ГҐГ¶ ГµГ°ГҐГ­ГЁ----------------------------------------------------------------------------------------------
 
 
 	
-	// время исполнения
+	// ГўГ°ГҐГ¬Гї ГЁГ±ГЇГ®Г«Г­ГҐГ­ГЁГї
 	unsigned int end_time = clock();
 	unsigned int search_time = end_time - start_time;
-	std::cout << "Время работы общее " << search_time << " милисекунд \n";
+	std::cout << "Г‚Г°ГҐГ¬Гї Г°Г ГЎГ®ГІГ» Г®ГЎГ№ГҐГҐ " << search_time << " Г¬ГЁГ«ГЁГ±ГҐГЄГіГ­Г¤ \n";
 	system("pause");
 	return 0;
 }
