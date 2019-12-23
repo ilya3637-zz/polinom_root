@@ -123,7 +123,7 @@ int main(void) {
 	cudaMalloc((void**)&devArrayQ, sizeof(double) * 100);
 	cudaMalloc((void**)&devArrayR, sizeof(double) * 10000);
 
-	pqr <<< 1, 1 >>>(devArrayP, devArrayQ, devArrayR, arrayS[n - 1], arrayS[0]);
+	pqr <<< 100, 100 >>>(devArrayP, devArrayQ, devArrayR, arrayS[n - 1], arrayS[0]);
 	cudaMemcpy(arrayRR, devArrayR, sizeof(double)*10000, cudaMemcpyDeviceToHost);
 	cudaMemcpy(arrayPP, devArrayP, sizeof(double) * 100, cudaMemcpyDeviceToHost);
 	cudaMemcpy(arrayQQ, devArrayQ, sizeof(double) * 100, cudaMemcpyDeviceToHost);
